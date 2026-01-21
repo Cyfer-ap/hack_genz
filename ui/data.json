@@ -1,0 +1,22 @@
+{
+  "district": "Shimla (Demo Zone)",
+  "updated_at_local": "21 Jan 2026, 10:18 PM",
+  "decision": "YES",
+  "confidence": 0.87,
+  "lead_time_hours": 6,
+  "summary": "High landslide risk detected. Recommended evacuation in vulnerable slope zones.",
+  "factors": [
+    { "name": "6h Rainfall", "value": "148 mm", "level": "HIGH" },
+    { "name": "Slope Susceptibility", "value": "Steep (>30°)", "level": "HIGH" },
+    { "name": "Soil Saturation (Proxy)", "value": "0.79", "level": "MEDIUM" },
+    { "name": "Sensor Health", "value": "61% active", "level": "LOW" }
+  ],
+  "hotspots": [
+    { "name": "Rohru–Chirgaon Belt", "decision": "YES", "confidence": 0.86, "lat": 31.1082, "lon": 77.1695 },
+    { "name": "Theog Ridge", "decision": "YES", "confidence": 0.82, "lat": 31.1215, "lon": 77.2012 },
+    { "name": "Mashobra Valley", "decision": "YES", "confidence": 0.79, "lat": 31.0903, "lon": 77.1450 },
+    { "name": "Kufri Road Section", "decision": "NO", "confidence": 0.62, "lat": 31.1019, "lon": 77.2594 },
+    { "name": "Chail Forest Edge", "decision": "NO", "confidence": 0.58, "lat": 31.0561, "lon": 77.1760 }
+  ],
+  "sms": "ALERT: Landslide RISK=YES in Shimla zone next 6h. Evacuate vulnerable slopes near Rohru–Chirgaon. Avoid hillside roads. Helpline 112."
+}

@@ -9,138 +9,138 @@
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <div class="title">Sentinel-LEWS (Offline)</div>
-      <div class="subtitle">Hyper-local Landslide Early Warning</div>
+<header class="topbar">
+  <div>
+    <div class="title">Sentinel-LEWS (Offline)</div>
+    <div class="subtitle">Hyper-local Landslide Early Warning</div>
+  </div>
+
+  <div class="status">
+    <span id="connDot" class="dot gray"></span>
+    <span id="connText">BOOTING…</span>
+
+    <button id="btnRefresh" class="btn">Refresh</button>
+    <button id="btnCopySms" class="btn secondary">Copy SMS</button>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- BIG DECISION BANNER -->
+  <section id="decisionBanner" class="banner neutral">
+    <div class="bannerLeft">
+      <div class="bannerLabel">District Decision</div>
+      <div class="bannerDistrict" id="districtName">—</div>
+      <div class="bannerSummary" id="summaryText">Waiting for model output…</div>
+
+      <div class="chips" id="chipRow">
+        <!-- chips injected from JS -->
+      </div>
     </div>
 
-    <div class="status">
-      <span id="connDot" class="dot gray"></span>
-      <span id="connText">BOOTING…</span>
-
-      <button id="btnRefresh" class="btn">Refresh</button>
-      <button id="btnSim" class="btn secondary">Sim Mode</button>
+    <div class="bannerRight">
+      <div class="decisionBox">
+        <div class="decisionTitle">AT RISK?</div>
+        <div id="decisionText" class="decisionValue">—</div>
+        <div class="decisionMeta">
+          Confidence: <b id="confidenceText">—</b><br/>
+          Lead Time: <b id="leadTimeText">—</b>
+        </div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main class="grid">
-    <!-- LEFT: METRICS -->
-    <section class="card">
-      <div class="cardTitle">System Metrics</div>
+  <!-- MAIN GRID -->
+  <section class="grid">
 
-      <div class="metrics">
-        <div class="metric">
-          <div class="metricLabel">Last Update</div>
-          <div id="lastUpdate" class="metricValue">—</div>
-        </div>
+    <!-- LEFT PANEL -->
+    <aside class="panel">
+      <div class="card">
+        <div class="cardTitle">System Metrics</div>
 
-        <div class="metric">
-          <div class="metricLabel">Max Risk</div>
-          <div id="maxRisk" class="metricValue">—</div>
-        </div>
+        <div class="metrics">
+          <div class="metric">
+            <div class="metricLabel">Last Update</div>
+            <div id="lastUpdate" class="metricValue">—</div>
+          </div>
 
-        <div class="metric">
-          <div class="metricLabel">Alert</div>
-          <div id="alertFlag" class="metricValue">—</div>
-        </div>
+          <div class="metric">
+            <div class="metricLabel">Mode</div>
+            <div id="modeText" class="metricValue">LOCAL JSON</div>
+          </div>
 
-        <div class="metric">
-          <div class="metricLabel">API</div>
-          <div id="apiBase" class="metricValue small">—</div>
+          <div class="metric">
+            <div class="metricLabel">Data Source</div>
+            <div id="dataSource" class="metricValue small">./data.json</div>
+          </div>
+
+          <div class="metric">
+            <div class="metricLabel">Map</div>
+            <div class="metricValue small">OSM + Cached Tiles</div>
+          </div>
         </div>
       </div>
 
-      <div class="hint">
-        Tip: API base can be changed in <code>app.js</code>. Default is <b>http://127.0.0.1:8000</b>
-      </div>
-
-      <!-- SMS PREVIEW -->
-      <div class="smsBox">
-        <div class="smsHeader">
-          <div class="smsTitle">SMS Alert Preview (160 chars)</div>
-          <button id="btnCopySms" class="btn small">Copy</button>
-        </div>
+      <div class="card">
+        <div class="cardTitle">SMS Alert Preview (160 chars)</div>
 
         <textarea id="smsText" readonly></textarea>
+        <div class="smsMeta"><span id="smsCount">0</span>/160</div>
 
-        <div class="smsMeta">
-          <span id="smsCount">0</span>/160
+        <div class="hint">
+          SMS is generated locally. No internet required.
         </div>
       </div>
 
-      <div class="hint">
-        Map tiles load from OpenStreetMap when online, and are cached for offline reuse (Service Worker).
+      <div class="card">
+        <div class="cardTitle">Decision Factors</div>
+        <div id="factorList" class="factors">
+          <div class="muted">Waiting for factors…</div>
+        </div>
       </div>
-    </section>
+    </aside>
 
-    <!-- LEFT: SIM CONTROLS -->
-    <section class="card">
-      <div class="cardTitle">Simulation Controls (Offline)</div>
-
-      <div class="control">
-        <label>Rain Intensity</label>
-        <input id="rainSlider" type="range" min="0" max="100" value="70"/>
-        <div class="val"><span id="rainVal">70</span>%</div>
-      </div>
-
-      <div class="control">
-        <label>Sensor Failure</label>
-        <input id="failSlider" type="range" min="0" max="80" value="40"/>
-        <div class="val"><span id="failVal">40</span>%</div>
-      </div>
-
-      <div class="control">
-        <label>Alert Threshold</label>
-        <input id="thrSlider" type="range" min="40" max="95" value="80"/>
-        <div class="val"><span id="thrVal">0.80</span></div>
-      </div>
-
-      <div class="hint">
-        These controls update hotspots + alert logic locally. Backend not needed.
-      </div>
-    </section>
-
-    <!-- RIGHT: MAP -->
+    <!-- MAP -->
     <section class="card mapCard">
-      <div class="cardTitle">Risk Map (Actual base map + offline cache)</div>
+      <div class="cardTitle">Operational Map</div>
       <div id="map"></div>
-
       <div class="mapNote">
-        If internet dies, cached map tiles remain visible after at least one online load.
-        Hotspot markers always work.
+        Base map loads online and stays available offline after caching. Hotspot markers always render.
       </div>
     </section>
 
-    <!-- FULL WIDTH: TABLE -->
+    <!-- HOTSPOTS -->
     <section class="card tableCard">
-      <div class="cardTitle">Top Hotspots (Top 10)</div>
+      <div class="cardTitle">Hotspots (Model Output: YES/NO)</div>
 
       <table class="table">
         <thead>
         <tr>
           <th>#</th>
-          <th>Cell/Village</th>
-          <th>Risk</th>
+          <th>Location</th>
+          <th>Decision</th>
+          <th>Confidence</th>
           <th>Lat</th>
           <th>Lon</th>
         </tr>
         </thead>
 
         <tbody id="hotspotBody">
-        <tr><td colspan="5" class="muted">Waiting for data…</td></tr>
+        <tr><td colspan="6" class="muted">Waiting for hotspots…</td></tr>
         </tbody>
       </table>
     </section>
 
-    <!-- FULL WIDTH: LOG -->
+    <!-- LOG -->
     <section class="card logCard">
       <div class="cardTitle">Event Log</div>
       <div id="log" class="log"></div>
     </section>
-  </main>
 
-  <script src="./vendor/leaflet/leaflet.js"></script>
-  <script src="./app.js"></script>
+  </section>
+</main>
+
+<script src="./vendor/leaflet/leaflet.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>
