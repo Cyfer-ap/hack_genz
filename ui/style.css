@@ -133,7 +133,18 @@ body{
   width:100%;
   border-radius:14px;
   overflow:hidden;
-  background:#0e1730; /* offline background */
+  background:#0e1730;
+}
+
+/* Leaflet controls look better on dark */
+.leaflet-control-zoom a{
+  background:#0e1730 !important;
+  color:#e7eeff !important;
+  border:1px solid #223152 !important;
+}
+.leaflet-control-attribution{
+  background:rgba(14,23,48,0.85) !important;
+  color:#cfe0ff !important;
 }
 
 .mapNote{
@@ -222,7 +233,7 @@ body{
 
 /* MAP LEGEND */
 .legend{
-  background:#0e1730;
+  background:rgba(14,23,48,0.92);
   border:1px solid #223152;
   padding:10px;
   border-radius:12px;

@@ -2,9 +2,12 @@
 const API_BASE = "http://127.0.0.1:8000";
 const POLL_MS = 5000;
 
+// OSM tile layer (actual base map)
+const OSM_TILES = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+
 // ---------- STATE ----------
 let simMode = false;
-let map, markersLayer;
+let map, markersLayer, baseTileLayer;
 
 // ---------- HELPERS ----------
 function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
@@ -41,10 +44,25 @@ function riskLabel(alertFlag, maxRisk) {
 }
 
 function colorForRisk(r) {
-  if (r >= 0.80) return "#ff4d4f";   // red
-  if (r >= 0.60) return "#ff8800";   // orange
-  if (r >= 0.40) return "#ffd166";   // yellow
-  return "#26d07c";                  // green
+  if (r >= 0.80) return "#ff4d4f";
+  if (r >= 0.60) return "#ffb020";
+  if (r >= 0.40) return "#ffd166";
+  return "#26d07c";
+}
+
+// ---------- SERVICE WORKER ----------
+async function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) {
+    log("Service Worker not supported (offline tile cache disabled)");
+    return;
+  }
+
+  try {
+    const reg = await navigator.serviceWorker.register("./sw.js");
+    log("Service Worker registered ✅ (offline cache enabled)");
+  } catch (e) {
+    log("Service Worker registration failed ❌");
+  }
 }
 
 // ---------- MAP ----------
@@ -64,10 +82,35 @@ function addLegend() {
   legend.addTo(map);
 }
 
+function addBaseTiles() {
+  // Actual map tiles (OSM)
+  baseTileLayer = L.tileLayer(OSM_TILES, {
+    maxZoom: 18,
+    crossOrigin: true,
+    attribution: "&copy; OpenStreetMap contributors"
+  });
+
+  // If tiles fail (offline, blocked), we keep the map background + markers
+  baseTileLayer.on("tileerror", () => {
+    // Do not spam logs: only note once
+    if (!window.__tileErrorLogged) {
+      window.__tileErrorLogged = true;
+      log("Map tiles failed to load (offline/blocked). Markers still work ✅");
+    }
+  });
+
+  baseTileLayer.addTo(map);
+}
+
 function initMap() {
   map = L.map("map", { zoomControl: true }).setView([31.10, 77.17], 10);
-  // Offline-safe: NO tiles
+
+  // Add actual map tiles
+  addBaseTiles();
+
+  // Marker layer always works (offline-safe)
   markersLayer = L.layerGroup().addTo(map);
+
   addLegend();
 }
 
@@ -142,7 +185,6 @@ function getSimConfig() {
   const rain = Number(document.getElementById("rainSlider")?.value ?? 70) / 100;
   const fail = Number(document.getElementById("failSlider")?.value ?? 40) / 100;
   const thr = Number(document.getElementById("thrSlider")?.value ?? 80) / 100;
-
   return { rain, fail, thr };
 }
 
@@ -158,7 +200,6 @@ function syncControlLabels(){
 
 // ---------- SIM DATA ----------
 function generateSimData(cfg) {
-  // cfg.rain: 0..1, cfg.fail: 0..0.8, cfg.thr: 0.4..0.95
   const baseLat = 31.10, baseLon = 77.17;
 
   let maxRisk = 0.20 + 0.80 * cfg.rain - 0.12 * cfg.fail;
@@ -199,7 +240,6 @@ async function fetchJSON(url) {
 }
 
 async function loadFromAPI() {
-  // These endpoints should exist later
   const [hotspotsRaw, alertRaw] = await Promise.all([
     fetchJSON(`${API_BASE}/hotspots`),
     fetchJSON(`${API_BASE}/check_alert`)
@@ -261,7 +301,6 @@ async function refresh() {
     return;
   }
 
-  // API mode (not ready yet) -> should fallback gracefully
   try {
     const data = await loadFromAPI();
     setConn("ONLINE");
@@ -276,17 +315,16 @@ async function refresh() {
       return;
     }
 
-    // last resort: generate sim data silently
     const data = generateSimData(cfg);
     applyData(data, "Fallback sim data used ✅");
   }
 }
 
 // ---------- BOOT ----------
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
+  await registerServiceWorker();
   initMap();
 
-  // Controls
   ["rainSlider","failSlider","thrSlider"].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -298,7 +336,6 @@ window.addEventListener("load", () => {
   });
   syncControlLabels();
 
-  // Buttons
   document.getElementById("btnRefresh").addEventListener("click", refresh);
 
   document.getElementById("btnSim").addEventListener("click", () => {
@@ -307,7 +344,6 @@ window.addEventListener("load", () => {
     refresh();
   });
 
-  // Copy SMS
   document.getElementById("btnCopySms").addEventListener("click", async () => {
     const txt = document.getElementById("smsText").value || "";
     try {
@@ -318,7 +354,6 @@ window.addEventListener("load", () => {
     }
   });
 
-  // Boot with cache (if exists)
   const cached = loadCache();
   if (cached) {
     setConn("OFFLINE");

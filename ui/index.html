@@ -68,6 +68,10 @@
           <span id="smsCount">0</span>/160
         </div>
       </div>
+
+      <div class="hint">
+        Map tiles load from OpenStreetMap when online, and are cached for offline reuse (Service Worker).
+      </div>
     </section>
 
     <!-- LEFT: SIM CONTROLS -->
@@ -99,11 +103,12 @@
 
     <!-- RIGHT: MAP -->
     <section class="card mapCard">
-      <div class="cardTitle">Risk Map (Offline-safe)</div>
+      <div class="cardTitle">Risk Map (Actual base map + offline cache)</div>
       <div id="map"></div>
 
       <div class="mapNote">
-        No internet? Fine. This map uses <b>no online tiles</b>. It only draws hotspot markers.
+        If internet dies, cached map tiles remain visible after at least one online load.
+        Hotspot markers always work.
       </div>
     </section>
 
