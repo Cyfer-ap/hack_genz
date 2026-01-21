@@ -28,14 +28,14 @@ body{
   border-bottom:1px solid var(--line);
   position:sticky;
   top:0;
-  background:linear-gradient(180deg, rgba(11,18,32,1), rgba(11,18,32,0.9));
+  background:linear-gradient(180deg, rgba(11,18,32,1), rgba(11,18,32,0.92));
   z-index:20;
 }
 
-.title{font-size:18px;font-weight:800}
+.title{font-size:18px;font-weight:900}
 .subtitle{font-size:12px;color:var(--muted)}
 
-.status{display:flex;align-items:center;gap:10px}
+.status{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .dot{width:10px;height:10px;border-radius:50%}
 .dot.green{background:var(--good)}
 .dot.red{background:var(--bad)}
@@ -48,15 +48,17 @@ body{
   padding:8px 10px;
   border-radius:10px;
   cursor:pointer;
-  font-weight:700;
+  font-weight:800;
 }
 .btn:hover{opacity:0.92}
 .btn.secondary{background:#152039}
+.btn.danger{
+  background:rgba(255,77,79,0.15);
+  border-color:rgba(255,77,79,0.55);
+}
 
 /* -------- LAYOUT -------- */
-.layout{
-  padding:14px;
-}
+.layout{ padding:14px; }
 
 .grid{
   display:grid;
@@ -95,17 +97,16 @@ body{
 }
 
 .banner.no{
-  border-color:rgba(38,208,124,0.5);
+  border-color:rgba(38,208,124,0.55);
   background:linear-gradient(135deg, rgba(38,208,124,0.18), rgba(18,27,46,1));
-  animation:pulseGreen 2.2s infinite;
+  animation:pulseGreen 2.4s infinite;
 }
 
 @keyframes pulseRed{
-  0%{ box-shadow:0 0 0 0 rgba(255,77,79,0.35); }
+  0%{ box-shadow:0 0 0 0 rgba(255,77,79,0.32); }
   70%{ box-shadow:0 0 0 16px rgba(255,77,79,0.0); }
   100%{ box-shadow:0 0 0 0 rgba(255,77,79,0.0); }
 }
-
 @keyframes pulseGreen{
   0%{ box-shadow:0 0 0 0 rgba(38,208,124,0.22); }
   70%{ box-shadow:0 0 0 16px rgba(38,208,124,0.0); }
@@ -115,14 +116,13 @@ body{
 .bannerLabel{
   font-size:12px;
   color:var(--muted);
-  font-weight:700;
+  font-weight:800;
 }
 
 .bannerDistrict{
   margin-top:4px;
   font-size:22px;
-  font-weight:900;
-  letter-spacing:0.3px;
+  font-weight:1000;
 }
 
 .bannerSummary{
@@ -150,16 +150,15 @@ body{
   border:1px solid var(--line);
   background:#0e1730;
   color:#dbe6ff;
-  font-weight:700;
+  font-weight:800;
 }
-
 .chip.high{border-color:rgba(255,77,79,0.7)}
 .chip.medium{border-color:rgba(255,176,32,0.7)}
-.chip.low{border-color:rgba(38,208,124,0.55)}
+.chip.low{border-color:rgba(38,208,124,0.6)}
 
 /* Decision Box */
 .decisionBox{
-  min-width:220px;
+  min-width:240px;
   border-radius:16px;
   border:1px solid var(--line);
   background:#0e1730;
@@ -169,7 +168,7 @@ body{
 .decisionTitle{
   font-size:12px;
   color:var(--muted);
-  font-weight:800;
+  font-weight:900;
 }
 
 .decisionValue{
@@ -178,14 +177,13 @@ body{
   margin:6px 0;
   letter-spacing:1px;
 }
-
 .decisionValue.yes{color:var(--bad)}
 .decisionValue.no{color:var(--good)}
 
 .decisionMeta{
   font-size:12px;
   color:#cfe0ff;
-  line-height:1.4;
+  line-height:1.45;
 }
 
 /* -------- CARDS -------- */
@@ -197,7 +195,7 @@ body{
 }
 
 .cardTitle{
-  font-weight:800;
+  font-weight:900;
   margin-bottom:10px;
   color:#dbe6ff;
 }
@@ -214,21 +212,11 @@ body{
   border-radius:12px;
   padding:10px;
 }
-
-.metricLabel{
-  font-size:12px;
-  color:var(--muted);
-}
-
-.metricValue{
-  font-size:16px;
-  font-weight:900;
-  margin-top:6px;
-}
-
+.metricLabel{ font-size:12px; color:var(--muted); }
+.metricValue{ font-size:16px; font-weight:1000; margin-top:6px; }
 .metricValue.small{
   font-size:12px;
-  font-weight:700;
+  font-weight:800;
   color:var(--muted);
   word-break:break-all;
 }
@@ -252,7 +240,6 @@ body{
   outline:none;
   font-size:12px;
 }
-
 .smsMeta{
   margin-top:6px;
   color:var(--muted);
@@ -260,13 +247,40 @@ body{
   text-align:right;
 }
 
-/* Factors list */
+/* Timeline */
+#timelineChart{
+  width:100%;
+  background:#0e1730;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+.timelineList{
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.tRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:8px 10px;
+  background:#0e1730;
+  font-size:12px;
+}
+.tLeft{color:#cfe0ff;font-weight:900}
+.tRight{color:var(--muted);font-weight:800}
+.tYes{border-color:rgba(255,77,79,0.55)}
+.tNo{border-color:rgba(38,208,124,0.55)}
+
+/* Factors */
 .factors{
   display:flex;
   flex-direction:column;
   gap:10px;
 }
-
 .factorRow{
   border:1px solid var(--line);
   border-radius:12px;
@@ -276,31 +290,16 @@ body{
   justify-content:space-between;
   align-items:center;
 }
-
-.factorLeft{
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-}
-
-.factorName{
-  font-weight:900;
-  font-size:13px;
-}
-
-.factorValue{
-  font-size:12px;
-  color:#cfe0ff;
-}
-
+.factorLeft{display:flex;flex-direction:column;gap:2px}
+.factorName{font-weight:1000;font-size:13px}
+.factorValue{font-size:12px;color:#cfe0ff}
 .badge{
   font-size:12px;
-  font-weight:900;
+  font-weight:1000;
   padding:6px 10px;
   border-radius:999px;
   border:1px solid var(--line);
 }
-
 .badge.high{border-color:rgba(255,77,79,0.7); color:#ffd6d6}
 .badge.medium{border-color:rgba(255,176,32,0.7); color:#ffe7c2}
 .badge.low{border-color:rgba(38,208,124,0.6); color:#c9ffe8}
@@ -313,8 +312,6 @@ body{
   overflow:hidden;
   background:#0e1730;
 }
-
-/* Dark map controls */
 .leaflet-control-zoom a{
   background:#0e1730 !important;
   color:#e7eeff !important;
@@ -324,7 +321,6 @@ body{
   background:rgba(14,23,48,0.85) !important;
   color:#cfe0ff !important;
 }
-
 .mapNote{
   margin-top:8px;
   font-size:12px;
@@ -337,17 +333,11 @@ body{
   border-collapse:collapse;
   font-size:13px;
 }
-
 .table th, .table td{
   border-bottom:1px solid var(--line);
   padding:9px 6px;
 }
-
-.table th{
-  color:var(--muted);
-  text-align:left;
-}
-
+.table th{color:var(--muted);text-align:left}
 .rowYes{color:#ffd6d6}
 .rowNo{color:#c9ffe8}
 

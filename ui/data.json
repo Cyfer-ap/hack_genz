@@ -18,5 +18,19 @@
     { "name": "Kufri Road Section", "decision": "NO", "confidence": 0.62, "lat": 31.1019, "lon": 77.2594 },
     { "name": "Chail Forest Edge", "decision": "NO", "confidence": 0.58, "lat": 31.0561, "lon": 77.1760 }
   ],
-  "sms": "ALERT: Landslide RISK=YES in Shimla zone next 6h. Evacuate vulnerable slopes near Rohru–Chirgaon. Avoid hillside roads. Helpline 112."
+  "sms": "ALERT: Landslide RISK=YES in Shimla zone next 6h. Evacuate vulnerable slopes near Rohru–Chirgaon. Avoid hillside roads. Helpline 112.",
+  "history": [
+    { "t": "16:30", "decision": "NO", "confidence": 0.28 },
+    { "t": "17:00", "decision": "NO", "confidence": 0.31 },
+    { "t": "17:30", "decision": "NO", "confidence": 0.35 },
+    { "t": "18:00", "decision": "NO", "confidence": 0.39 },
+    { "t": "18:30", "decision": "NO", "confidence": 0.44 },
+    { "t": "19:00", "decision": "YES", "confidence": 0.62 },
+    { "t": "19:30", "decision": "YES", "confidence": 0.68 },
+    { "t": "20:00", "decision": "YES", "confidence": 0.74 },
+    { "t": "20:30", "decision": "YES", "confidence": 0.79 },
+    { "t": "21:00", "decision": "YES", "confidence": 0.83 },
+    { "t": "21:30", "decision": "YES", "confidence": 0.86 },
+    { "t": "22:00", "decision": "YES", "confidence": 0.87 }
+  ]
 }

@@ -21,6 +21,9 @@
 
     <button id="btnRefresh" class="btn">Refresh</button>
     <button id="btnCopySms" class="btn secondary">Copy SMS</button>
+    <button id="btnAck" class="btn danger">ACK ALERT</button>
+    <button id="btnMute" class="btn secondary">Mute</button>
+    <button id="btnReport" class="btn">Download Report</button>
   </div>
 </header>
 
@@ -33,9 +36,7 @@
       <div class="bannerDistrict" id="districtName">—</div>
       <div class="bannerSummary" id="summaryText">Waiting for model output…</div>
 
-      <div class="chips" id="chipRow">
-        <!-- chips injected from JS -->
-      </div>
+      <div class="chips" id="chipRow"></div>
     </div>
 
     <div class="bannerRight">
@@ -44,7 +45,8 @@
         <div id="decisionText" class="decisionValue">—</div>
         <div class="decisionMeta">
           Confidence: <b id="confidenceText">—</b><br/>
-          Lead Time: <b id="leadTimeText">—</b>
+          Lead Time: <b id="leadTimeText">—</b><br/>
+          Status: <b id="ackText">NOT ACKED</b>
         </div>
       </div>
     </div>
@@ -55,6 +57,7 @@
 
     <!-- LEFT PANEL -->
     <aside class="panel">
+
       <div class="card">
         <div class="cardTitle">System Metrics</div>
 
@@ -75,21 +78,27 @@
           </div>
 
           <div class="metric">
-            <div class="metricLabel">Map</div>
-            <div class="metricValue small">OSM + Cached Tiles</div>
+            <div class="metricLabel">Alarm</div>
+            <div id="alarmText" class="metricValue small">—</div>
           </div>
+        </div>
+
+        <div class="hint">
+          Alarm triggers on YES until acknowledged (local-first). Works offline.
         </div>
       </div>
 
       <div class="card">
         <div class="cardTitle">SMS Alert Preview (160 chars)</div>
-
         <textarea id="smsText" readonly></textarea>
         <div class="smsMeta"><span id="smsCount">0</span>/160</div>
+        <div class="hint">SMS is generated locally. No internet required.</div>
+      </div>
 
-        <div class="hint">
-          SMS is generated locally. No internet required.
-        </div>
+      <div class="card">
+        <div class="cardTitle">Decision Timeline (Last 6h)</div>
+        <canvas id="timelineChart" width="330" height="120"></canvas>
+        <div id="timelineList" class="timelineList"></div>
       </div>
 
       <div class="card">
