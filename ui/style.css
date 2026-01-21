@@ -1,0 +1,244 @@
+:root{
+  --bg:#0b1220;
+  --card:#121b2e;
+  --muted:#93a4c7;
+  --text:#e7eeff;
+  --line:#223152;
+
+  --good:#26d07c;
+  --bad:#ff4d4f;
+  --warn:#ffb020;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+}
+
+.title{font-size:18px;font-weight:700}
+.subtitle{font-size:12px;color:var(--muted)}
+
+.status{display:flex;align-items:center;gap:10px}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot.green{background:var(--good)}
+.dot.red{background:var(--bad)}
+.dot.gray{background:#6b7280}
+.dot.yellow{background:var(--warn)}
+
+.btn{
+  background:#1e2b47;
+  color:var(--text);
+  border:1px solid var(--line);
+  padding:8px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn:hover{opacity:0.9}
+.btn.secondary{background:#152039}
+
+.btn.small{
+  padding:6px 8px;
+  border-radius:10px;
+  font-size:12px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: 360px 1fr;
+  gap:14px;
+  padding:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+}
+
+.cardTitle{
+  font-weight:700;
+  margin-bottom:10px;
+  color:#dbe6ff;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+
+.metric{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px;
+}
+
+.metricLabel{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.metricValue{
+  font-size:18px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.metricValue.small{
+  font-size:12px;
+  font-weight:700;
+  color:var(--muted);
+  word-break:break-all;
+}
+
+.hint{
+  margin-top:10px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* SIM CONTROLS */
+.control{margin:10px 0}
+.control label{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:6px
+}
+.control input{width:100%}
+.val{
+  color:var(--text);
+  font-weight:800;
+  font-size:13px;
+  margin-top:6px
+}
+
+/* MAP */
+#map{
+  height:420px;
+  width:100%;
+  border-radius:14px;
+  overflow:hidden;
+  background:#0e1730; /* offline background */
+}
+
+.mapNote{
+  margin-top:8px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* TABLE */
+.table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+.table th, .table td{
+  border-bottom:1px solid var(--line);
+  padding:8px 6px;
+}
+
+.table th{
+  color:var(--muted);
+  text-align:left;
+}
+
+.muted{color:var(--muted)}
+
+/* LOG */
+.log{
+  height:210px;
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px;
+  background:#0e1730;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size:12px;
+  color:#cfe0ff;
+}
+
+.mapCard{grid-column:2/3}
+.tableCard{grid-column:1/3}
+.logCard{grid-column:1/3}
+
+/* SMS PREVIEW */
+.smsBox{
+  margin-top:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px;
+  background:#0e1730;
+}
+
+.smsHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.smsTitle{
+  font-weight:800;
+  font-size:13px;
+  color:#dbe6ff;
+}
+
+#smsText{
+  width:100%;
+  height:70px;
+  resize:none;
+  background:#0b1220;
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:8px;
+  outline:none;
+  font-size:12px;
+}
+
+.smsMeta{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:12px;
+  text-align:right;
+}
+
+/* MAP LEGEND */
+.legend{
+  background:#0e1730;
+  border:1px solid #223152;
+  padding:10px;
+  border-radius:12px;
+  color:#e7eeff;
+  font-size:12px;
+}
+
+.legendTitle{
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.swatch{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  border-radius:3px;
+  margin-right:6px;
+}

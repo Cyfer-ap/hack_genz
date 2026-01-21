@@ -1,0 +1,12 @@
+{
+  "max_risk": 0.86,
+  "alert": true,
+  "hotspots": [
+    {"name":"Cell-1021", "risk":0.86, "lat":31.10, "lon":77.17},
+    {"name":"Cell-1880", "risk":0.83, "lat":31.08, "lon":77.22},
+    {"name":"Cell-0444", "risk":0.81, "lat":31.05, "lon":77.19},
+    {"name":"Cell-0777", "risk":0.79, "lat":31.03, "lon":77.21},
+    {"name":"Cell-0900", "risk":0.77, "lat":31.12, "lon":77.25},
+    {"name":"Cell-0909", "risk":0.24, "lat":11.12, "lon":77.23}
+  ]
+}

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sentinel-LEWS Offline Dashboard</title>
+
+  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="title">Sentinel-LEWS (Offline)</div>
+      <div class="subtitle">Hyper-local Landslide Early Warning</div>
+    </div>
+
+    <div class="status">
+      <span id="connDot" class="dot gray"></span>
+      <span id="connText">BOOTING…</span>
+
+      <button id="btnRefresh" class="btn">Refresh</button>
+      <button id="btnSim" class="btn secondary">Sim Mode</button>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- LEFT: METRICS -->
+    <section class="card">
+      <div class="cardTitle">System Metrics</div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metricLabel">Last Update</div>
+          <div id="lastUpdate" class="metricValue">—</div>
+        </div>
+
+        <div class="metric">
+          <div class="metricLabel">Max Risk</div>
+          <div id="maxRisk" class="metricValue">—</div>
+        </div>
+
+        <div class="metric">
+          <div class="metricLabel">Alert</div>
+          <div id="alertFlag" class="metricValue">—</div>
+        </div>
+
+        <div class="metric">
+          <div class="metricLabel">API</div>
+          <div id="apiBase" class="metricValue small">—</div>
+        </div>
+      </div>
+
+      <div class="hint">
+        Tip: API base can be changed in <code>app.js</code>. Default is <b>http://127.0.0.1:8000</b>
+      </div>
+
+      <!-- SMS PREVIEW -->
+      <div class="smsBox">
+        <div class="smsHeader">
+          <div class="smsTitle">SMS Alert Preview (160 chars)</div>
+          <button id="btnCopySms" class="btn small">Copy</button>
+        </div>
+
+        <textarea id="smsText" readonly></textarea>
+
+        <div class="smsMeta">
+          <span id="smsCount">0</span>/160
+        </div>
+      </div>
+    </section>
+
+    <!-- LEFT: SIM CONTROLS -->
+    <section class="card">
+      <div class="cardTitle">Simulation Controls (Offline)</div>
+
+      <div class="control">
+        <label>Rain Intensity</label>
+        <input id="rainSlider" type="range" min="0" max="100" value="70"/>
+        <div class="val"><span id="rainVal">70</span>%</div>
+      </div>
+
+      <div class="control">
+        <label>Sensor Failure</label>
+        <input id="failSlider" type="range" min="0" max="80" value="40"/>
+        <div class="val"><span id="failVal">40</span>%</div>
+      </div>
+
+      <div class="control">
+        <label>Alert Threshold</label>
+        <input id="thrSlider" type="range" min="40" max="95" value="80"/>
+        <div class="val"><span id="thrVal">0.80</span></div>
+      </div>
+
+      <div class="hint">
+        These controls update hotspots + alert logic locally. Backend not needed.
+      </div>
+    </section>
+
+    <!-- RIGHT: MAP -->
+    <section class="card mapCard">
+      <div class="cardTitle">Risk Map (Offline-safe)</div>
+      <div id="map"></div>
+
+      <div class="mapNote">
+        No internet? Fine. This map uses <b>no online tiles</b>. It only draws hotspot markers.
+      </div>
+    </section>
+
+    <!-- FULL WIDTH: TABLE -->
+    <section class="card tableCard">
+      <div class="cardTitle">Top Hotspots (Top 10)</div>
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Cell/Village</th>
+          <th>Risk</th>
+          <th>Lat</th>
+          <th>Lon</th>
+        </tr>
+        </thead>
+
+        <tbody id="hotspotBody">
+        <tr><td colspan="5" class="muted">Waiting for data…</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FULL WIDTH: LOG -->
+    <section class="card logCard">
+      <div class="cardTitle">Event Log</div>
+      <div id="log" class="log"></div>
+    </section>
+  </main>
+
+  <script src="./vendor/leaflet/leaflet.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
